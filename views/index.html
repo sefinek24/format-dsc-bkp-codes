@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Format Discord Backup codes</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <style>
+        body {
+            background-color: #202225;
+            color: #fff;
+            text-align: center
+        }
+
+        hr {
+            margin-bottom: 28px
+        }
+
+        textarea {
+            background-color: #2a2b2f;
+            color: #fff
+        }
+    </style>
+</head>
+<body>
+    <h1><label for="data">Paste the contents of the Discord generated file into the text field</label></h1>
+    <hr>
+
+    <p><textarea id="data" rows="36" cols="90"></textarea></p>
+
+    <button onclick="purge()">Clear 🗑️</button>
+    <button type="submit" onclick="format()">Format 📃</button>
+
+    <p id="status"></p>
+
+    <script>
+        function purge() {
+            document.getElementById('data').value = '';
+        }
+
+        async function format() {
+            const status = document.getElementById('status');
+            const textarea = document.getElementById('data');
+
+            try {
+                const res = await axios.post('/api/format', { textarea: textarea.value });
+                textarea.value = res.data.formattedText;
+            } catch (err) {
+                status.innerText = err.message;
+            }
+        }
+    </script>
+</body>
+</html>
