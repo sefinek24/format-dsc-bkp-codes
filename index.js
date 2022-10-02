@@ -20,4 +20,6 @@ app.post('/api/format', (req, res) => {
 
 app.listen(process.env.PORT, () => {
 	console.log(`App is ready. http://127.0.0.1:${process.env.PORT}`);
+
+	if (process.env.NODE_ENV === 'production') process.send('ready');
 });
